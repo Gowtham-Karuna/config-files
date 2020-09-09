@@ -1,0 +1,55 @@
+"" General
+set nocompatible	" set compatibility to vim only
+set encoding=utf-8  " utf-8 encoding support
+set ttyfast			" Speed up scrolling in vim
+set t_Co=256		" enable 256 colors
+syntax on 			" Enables syntax highlighting
+set modelines=1		" Turn off modelines
+set number			" Show line numbers
+set laststatus=2	" display the status bar
+set linebreak		" Break lines at word (requires Wrap lines)
+set showbreak=+++ 	" Wrap-broken line prefix
+set textwidth=100	" Line wrap (number of cols)
+set backspace=indent,eol,start	" Fix backspace indent
+
+set nospell			" Disable spell-checking
+set novisualbell	" Don't Use visual bell (no beeping)
+set wildmenu    	" visual autocomplete for command menu
+set showcmd         " show command in bottom bar
+set foldenable      " enable folding
+set foldlevelstart=10   " open most folds by default
+set foldnestmax=10      " 10 nested fold max
+set foldmethod=indent   " fold based on indent level
+
+set formatoptions=tcqrn1 " formatting options
+set showmatch		" Highlight matching brace
+set hlsearch		" Highlight all search results
+set smartcase		" Enable smart-case search
+set gdefault		" Always substitute all matches in a line
+set ignorecase		" Always case-insensitive
+set incsearch		" Searches for strings incrementally
+set noshiftround
+
+filetype plugin indent on  " load filetype-specific indent files 
+set autoindent		" Auto-indent new lines
+set shiftwidth=4	" Number of auto-indent spaces
+set smartindent		" Enable smart-indent
+set smarttab		" Enable smart-tabs
+set softtabstop=4	" Number of spaces per Tab
+
+set nobackup		" won't create backup files
+set noswapfile		" won't create swap files
+set undofile		" Retain the cancellation history
+ 
+"" Advanced
+set confirm			" Prompt confirmation dialogs
+set ruler			" Show row and column ruler information
+ 
+set autochdir		" Change working directory to open buffer
+set autowriteall	" Auto-write all file changes
+ 
+set undolevels=1000	" Number of undo levels
+set backspace=indent,eol,start	" Backspace behaviour
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+
