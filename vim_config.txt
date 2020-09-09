@@ -1,55 +1,165 @@
-"" General
-set nocompatible	" set compatibility to vim only
-set encoding=utf-8  " utf-8 encoding support
-set ttyfast			" Speed up scrolling in vim
-set t_Co=256		" enable 256 colors
-syntax on 			" Enables syntax highlighting
-set modelines=1		" Turn off modelines
-set number			" Show line numbers
-set laststatus=2	" display the status bar
-set linebreak		" Break lines at word (requires Wrap lines)
-set showbreak=+++ 	" Wrap-broken line prefix
-set textwidth=100	" Line wrap (number of cols)
-set backspace=indent,eol,start	" Fix backspace indent
+" Use debian runtime
+runtime! debian.vim
 
-set nospell			" Disable spell-checking
-set novisualbell	" Don't Use visual bell (no beeping)
-set wildmenu    	" visual autocomplete for command menu
-set showcmd         " show command in bottom bar
-set foldenable      " enable folding
-set foldlevelstart=10   " open most folds by default
-set foldnestmax=10      " 10 nested fold max
-set foldmethod=indent   " fold based on indent level
+" Source a global configuration file if available
+if filereadable("/etc/vim/vimrc.local")
+    source /etc/vim/vimrc.local
+endif
 
-set formatoptions=tcqrn1 " formatting options
-set showmatch		" Highlight matching brace
-set hlsearch		" Highlight all search results
-set smartcase		" Enable smart-case search
-set gdefault		" Always substitute all matches in a line
-set ignorecase		" Always case-insensitive
-set incsearch		" Searches for strings incrementally
-set noshiftround
+" General configuration options
+syntax on                               " Enables syntax highlighting
+filetype plugin indent on               " Load indentation rules and plugins according to the detected filetype.
+set backspace=indent,eol,start          " Allow backspacing over indention, line breaks and insertion start.
+set history=1000                        " Set bigger history of executed commands.
+set autoread                            " Automatically re-read files if unmodified inside Vim
+set hidden                              " Manage multiple buffers effectively
+set showcmd	                            " Show (partial) command in status line.
+set showmatch		                    " Show matching brackets.
+set autowrite		                    " Automatically save before commands like :next and :make
+set mouse=a		                        " Enable mouse usage (all modes)
 
-filetype plugin indent on  " load filetype-specific indent files 
-set autoindent		" Auto-indent new lines
-set shiftwidth=4	" Number of auto-indent spaces
-set smartindent		" Enable smart-indent
-set smarttab		" Enable smart-tabs
-set softtabstop=4	" Number of spaces per Tab
+" Search settings
+set hlsearch		                    " Highlight searches by default
+set ignorecase	        	            " Do case insensitive matching
+set smartcase		                    " Do smart case matching
+set incsearch		                    " Incremental search
 
-set nobackup		" won't create backup files
-set noswapfile		" won't create swap files
-set undofile		" Retain the cancellation history
- 
-"" Advanced
-set confirm			" Prompt confirmation dialogs
-set ruler			" Show row and column ruler information
- 
-set autochdir		" Change working directory to open buffer
-set autowriteall	" Auto-write all file changes
- 
-set undolevels=1000	" Number of undo levels
-set backspace=indent,eol,start	" Backspace behaviour
+" Indent settings
+set autoindent 			                " New lines inherit the indentation of previous lines.
+set tabstop=4 			                " Show existing tab with 4 spaces width.
+set shiftwidth=4	        	        " When indenting with ‘>’, use 2 spaces width.
+set softtabstop=4                       " Sets the number of columns for a TAB
+set expandtab 			                " On pressing tab, insert 4 spaces.
+set nowrap 		    	                " Don’t wrap lines.
 
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+" Errors
+set noerrorbells                        " Disable beep on errors.
+set novisualbell                        " Disable Flash the screen.
 
+" Miscellaneous Options
+set number                              " Show line numbers on the sidebar.
+set relativenumber                      " Show relative number style on the sidebar.
+set confirm                             " Display a confirmation dialog when closing an unsaved file.
+set nomodeline                          " Ignore file’s mode lines; use vimrc configurations instead.
+set nrformats-=octal                    " Interpret octal as decimal when incrementing numbers.
+set spell                               " Enable spellchecking.
+set ttyfast	                            " More characters will be sent to the screen for redrawing
+set ttimeout                            " Time waited for key press(es) to complete. It makes for a faster key response
+set ttimeoutlen=50
+set wildmenu
+set wildmode=longest:full,full
+set cursorline                          " Highlight current line
+set splitbelow                          " New splits will be at the bottom or to the right side of the screen
+set splitright
+set shell=/usr/bin/bash                 " Set the shell
+
+" Backup & Swap files location
+set backupdir=/tmp//
+set directory=/tmp//
+set undodir=/tmp//
+
+" Airline settings
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'onedark'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" Theme
+"let ayucolor="mirage"                   " Set accent color
+set t_Co=256                            " Capable of displaying 256 colors
+colorscheme  dracula                    " Set colorscheme
+set termguicolors                       " Enable true colors support
+set background=dark                     " Use a dark background
+
+" Toggle netrw on the left side of the editor
+let g:netrw_banner=0
+let g:netrw_winsize=20
+let g:netrw_liststyle=3
+let g:netrw_localrmdir='rm -r'
+"let g:netrw_list_hide = '^\..*'        " or anything you like
+let g:netrw_hide = 1                   " hide by default
+
+" Remapping <Space> as leader
+let mapleader="\<Space>"
+" <leader>n = Toggle file explorer
+nnoremap <leader>n :Lexplore<CR>
+" <leader>w = Toggle line-wrap
+map <Leader>w <Esc>:set wrap!<CR>
+" <leader>T = Delete all trailing space in file
+map <leader>t :%s/\s\+$//<CR>
+" <leader>R = Converts tabs to spaces in file
+map <leader>R :retab<CR>
+" Clear highlighting
+nnoremap <leader>c :nohl<CR>
+" <Ctrl-a> = previous tab
+map <C-a> :tabp<CR>
+" <Ctrl-d> = next tab
+map <C-d> :tabn<CR>
+" <Ctrl-w> = close tab
+map <C-x> :bd<CR>
+" <Ctrl-t> = new tab
+map <C-t> :tabnew<CR>
+" Toggle Indent
+map <F7> gg=G<C-o><C-o>
+" Toggle terminal
+map <F6> :terminal<CR>
+
+" Kill the arrow keys
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+
+" Split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" resize current buffer by +/- 5
+nnoremap <C-left> :vertical resize -5<cr>
+nnoremap <C-down> :resize +5<cr>
+nnoremap <C-up> :resize -5<cr>
+nnoremap <C-right> :vertical resize +5<cr>
+
+" Buffer management
+map <C-P> :bprev<CR>
+map <C-N> :bnext<CR>
+
+""" Remove multiple empty lines {{{
+function! DeleteMultipleEmptyLines()
+    g/^\_$\n\_^$/d
+endfunction
+nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
+""" }}}
+
+" Format golang files on save
+au BufWritePost *.go !gofmt -w %
+
+" Format Python files on save
+au BufWritePost *.py !black -q %
+
+" Fold and Unfold code
+nnoremap <expr> <f2> &foldlevel ? 'zM' :'zR'
+
+" Productivity hacks
+" Toggle line number in normal mode
+augroup toggle_relative_number
+autocmd InsertEnter * :setlocal norelativenumber
+autocmd InsertLeave * :setlocal relativenumber
+
+" Use Templates for specific languages
+autocmd BufNewFile *.go   0r ~/.vim/templates/go.tpl
+
+" highlight trailing whitespace
+match ErrorMsg '\s\+$'
+
+" remove trailing whitespaces automatically
+autocmd BufWritePre * :%s/\s\+$//e
+
+
+nnoremap <leader>md :!grip --quiet -b % &<CR>
+nnoremap <leader>mk :!sudo pkill grip &<CR>
